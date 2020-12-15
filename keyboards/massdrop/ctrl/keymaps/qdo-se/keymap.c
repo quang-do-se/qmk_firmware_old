@@ -187,7 +187,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case QD_ESC:
     if (record->event.pressed) {
       if (MODS_SHIFT) {
-        del_mods(MOD_MASK_SHIFT);
+        // del_mods(MOD_MASK_SHIFT);
         kc = KC_TILDE;
       } else {
         kc = KC_ESCAPE;
