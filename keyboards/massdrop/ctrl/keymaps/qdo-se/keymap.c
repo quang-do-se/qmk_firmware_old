@@ -19,7 +19,8 @@ enum ctrl_keycodes {
   DBG_KBD,            //DEBUG Toggle Keyboard Prints                              //
   DBG_MOU,            //DEBUG Toggle Mouse Prints                                 //
   MD_BOOT,            //Restart into bootloader after hold timeout                //Working
-  QD_ESC              //default: escape,  SHIFT: ~
+  QD_ESC,             //default: escape,  shift: ~
+  QD_M                //default: M, ctrl: enter
 };
 
 keymap_config_t keymap_config;
@@ -30,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                QD_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,   KC_INS,  KC_HOME, KC_PGUP, \
                KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,   KC_DEL,  KC_END,  KC_PGDN, \
                KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_ENT, \
-               KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                              KC_UP, \
+               KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    QD_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                              KC_UP, \
                KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, KC_RGUI, MO(1),   KC_RCTL,            KC_LEFT, KC_DOWN, KC_RGHT \
                ),
   [1] = LAYOUT(
@@ -71,7 +72,7 @@ void matrix_scan_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
   static uint16_t kc;
-  
+
   switch (keycode) {
   case L_BRI:
     if (record->event.pressed) {
@@ -186,7 +187,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case QD_ESC:
     if (record->event.pressed) {
       if (MODS_SHIFT) {
-        /* del_mods(MOD_MASK_SHIFT) */
+        del_mods(MOD_MASK_SHIFT)
         kc = KC_TILDE;
       } else {
         kc = KC_ESCAPE;
@@ -196,7 +197,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       unregister_code(kc);
     }
-    return false;    
+    return false;
+  case QD_M:
+    if (record->event.pressed) {
+      if (MODS_CTRL) {
+        kc = KC_ENT;
+      } else {
+        kc = KC_M;
+      }
+
+      register_code(kc);
+    } else {
+      unregister_code(kc);
+    }
+    return false;
   default:
     return true; //Process all other keycodes normally
   }
