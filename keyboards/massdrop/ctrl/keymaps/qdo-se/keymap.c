@@ -67,6 +67,7 @@ void matrix_scan_user(void) {
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
 #define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
+#define MODS_GUI  (get_mods() & MOD_BIT(KC_LGUI) || get_mods() & MOD_BIT(KC_RGUI))
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -186,7 +187,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return false;
   case QD_ESC:
     if (record->event.pressed) {
-      if (MODS_SHIFT) {
+      if (MODS_GUI) {
+        kc = KC_ESCAPE;
+      } else if (MODS_SHIFT) {
         // del_mods(MOD_MASK_SHIFT);
         kc = KC_TILDE;
       } else {
