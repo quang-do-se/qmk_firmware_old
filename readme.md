@@ -1,5 +1,14 @@
 # Quantum Mechanical Keyboard Firmware
 
+## Compile and flash
+
+`qmk compile -kb <my_keyboard> -km <my_keymap>`
+`qmk flash -kb <my_keyboard> -km <my_keymap>`
+
+Example, `qmk compile -kb 1upkeyboards/1up60hse -km qdo-se && qmk flash -kb 1upkeyboards/1up60hse -km qdo-se`
+
+## Version
+
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
 [![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
 [![Docs Status](https://img.shields.io/badge/docs-ready-orange.svg)](https://docs.qmk.fm)
