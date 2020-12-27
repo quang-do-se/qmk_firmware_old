@@ -78,8 +78,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        _______, KC_VOLU, KC_VOLD, KC_MUTE, _______, _______, _______, KC_MUTE, KC_VOLD, KC_VOLU, _______,                   _______,
                        _______, _______, _______,                   _______,                            _______, MO(2),   _______,          _______,
                        ),
-
-
   [2] = LAYOUT_60_ansi(
                        _______, _______,  _______, _______, _______, _______, _______,  _______, _______, _______,  _______, _______, _______, RESET,
                        BL_TOGG, BL_INC,   BL_DEC,  BL_STEP, _______, _______, _______,  _______, _______, _______,  _______, _______, _______, _______,
@@ -104,7 +102,6 @@ void matrix_scan_user(void) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  static uint32_t key_timer;
   static uint16_t kc;
 
   switch (keycode) {
