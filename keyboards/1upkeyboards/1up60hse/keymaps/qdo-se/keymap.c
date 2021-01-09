@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * | Caps  |  GUI  |  Alt  |              Space              |  Alt  |  GUI  |  L1   | Entr  |
    * `-----------------------------------------------------------------------------------------'
    */
-  
+
   /* L1 - Function
    * ,-----------------------------------------------------------------------------------------.
    * |  `  | F1  | F2  | F3  | F4  | F5  | F6  | F7  | F8  | F9  | F10 | F11 | F12 |    Del    |
@@ -63,12 +63,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |       |       |       |                                 |       |       |       |       |
    * `-----------------------------------------------------------------------------------------'
    */
-  
+
   [0] = LAYOUT_60_ansi(
                        QD_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
                        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
-                       KC_LCTL,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_RCTRL,
-                       KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
+                       KC_LCTL,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_RCTL,
+                       KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     QD_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
                        KC_CAPS,  KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  MO(1),              KC_ENT
                        ),
   [1] = LAYOUT_60_ansi(
@@ -110,7 +110,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (MODS_GUI) {
         kc = KC_ESCAPE;
       } else if (MODS_SHIFT) {
-        // del_mods(MOD_MASK_SHIFT);
         kc = KC_TILDE;
       } else {
         kc = KC_ESCAPE;
@@ -124,12 +123,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case QD_M:
     if (record->event.pressed) {
       if (MODS_CTRL) {
+        bool lctl_on = get_mods() & MOD_BIT(KC_LCTL);
+        bool rctl_on = get_mods() & MOD_BIT(KC_RCTL);
+
+        del_mods(MOD_MASK_CTRL);
         kc = KC_ENT;
+        register_code(kc);
+
+        if (lctl_on) {
+          register_code(KC_LCTL);
+        }
+
+        if (rctl_on) {
+          register_code(KC_RCTL);
+        }
       } else {
         kc = KC_M;
+        register_code(kc);
       }
-
-      register_code(kc);
     } else {
       unregister_code(kc);
     }
@@ -137,4 +148,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   default:
     return true; //Process all other keycodes normally
   }
+  // layer_state_is(1)
+  // layer_off(1)
 }
