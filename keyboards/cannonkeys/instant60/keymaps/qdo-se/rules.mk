@@ -1,26 +1,26 @@
 # MCU name
 MCU = STM32F072
 
-# Bootloader selection
-BOOTLOADER = stm32-dfu
-
-# Wildcard to allow APM32 MCU
-DFU_SUFFIX_ARGS = -v FFFF -p FFFF
-
 # Build Options
-#   change yes to no to disable
+#   comment out to disable the options.
 #
-BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
+
+BOOTMAGIC_ENABLE = lite	# Virtual DIP switch configuration
 MOUSEKEY_ENABLE = yes	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = yes	# Console for debug
 COMMAND_ENABLE = yes    # Commands for debug and configuration
-NKRO_ENABLE = yes           # Enable N-Key Rollover
+SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
+NKRO_ENABLE = yes	    # USB Nkey Rollover
+CUSTOM_MATRIX = no # Custom matrix file
 BACKLIGHT_ENABLE = yes
-RGBLIGHT_ENABLE = yes        # Enable keyboard RGB underglow
+RGBLIGHT_ENABLE = no        # Disable keyboard RGB underglow
 WS2812_DRIVER = spi
 
 LAYOUTS = 60_ansi 60_tsangan_hhkb
+
+# Wildcard to allow APM32 MCU 
+DFU_SUFFIX_ARGS = -p FFFF -v FFFF
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
