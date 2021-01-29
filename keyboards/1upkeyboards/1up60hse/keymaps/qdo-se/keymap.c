@@ -113,12 +113,34 @@ void matrix_scan_user(void) {
 #define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
 #define MODS_GUI  (get_mods() & MOD_BIT(KC_LGUI) || get_mods() & MOD_BIT(KC_RGUI))
 
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  
+  debug_enable=true;
+  debug_matrix=true;
+  debug_keyboard=true;
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t kc;
   
 #ifdef CONSOLE_ENABLE
-  uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count, );
+  uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+  if (layer_state_is(0)) {
+    print("Layer 0 is active!\n");
+  }
+
+  if (layer_state_is(1)) {
+    print("Layer 1 is active!\n");
+  }
+
+  if (layer_state_is(2)) {
+    print("Layer 2 is active!\n");
+  }
+
+  if (layer_state_is(3)) {
+    print("Layer 3 is active!\n");
+  }
 #endif
   
   switch (keycode) {
