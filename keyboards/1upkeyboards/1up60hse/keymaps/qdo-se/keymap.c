@@ -161,6 +161,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       saved_layout = current_layout;
       layer_move(1);
     } else {
+      // If layout is not changed during pressing MO(1), reverse back to previous layout once releaseing MO(1)
+      // For example:
+      // If active layer is 2, presseing MO(1) will move to layer 1. If active layer is not changed, releasing MO(1) will move back to layer 2.
+      // If active layer is 2, presseing MO(1) will move to layer 1. If active layer is changed to 0, releasing MO(1) will do nothing and active layer is 0.
       if (saved_layout == current_layout) {
         layer_move(current_layout);
       } 

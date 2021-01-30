@@ -20,7 +20,14 @@ We have to handle the release for right control if the right control is not pres
 
 # Debug
 
-Download `hid_listen` at https://www.pjrc.com/teensy/hid_listen.html
+- Download `hid_listen` at https://www.pjrc.com/teensy/hid_listen.html
+
+- Update `rules.mk` on include:
+
+```
+CONSOLE_ENABLE = yes        # Console for debug
+COMMAND_ENABLE = yes        # Commands for debug and configuration
+```
 
 # Layout
 
@@ -31,4 +38,3 @@ Hit `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
 When `Fn` is released, it reverses back to the previous layout.
 
 If layout is changed during `Fn` is pressed, releasing `Fn` will do nothing.
-
