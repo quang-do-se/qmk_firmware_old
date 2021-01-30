@@ -196,8 +196,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       if (alt) {
         layer_clear();
-        /* layer_on(1); */
-        DF(0);
+        layer_on(0);
       }
     }
     return true;
@@ -205,8 +204,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       if (alt) {
         layer_clear();
-        /* layer_on(1); */
-        DF(1);
+        layer_on(1);
       }
     }
     return true;    
@@ -214,8 +212,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       if (alt) {
         layer_clear();
-        /* layer_on(2); */
-        DF(2);
+        layer_on(2);
       }
     }
     return true;
