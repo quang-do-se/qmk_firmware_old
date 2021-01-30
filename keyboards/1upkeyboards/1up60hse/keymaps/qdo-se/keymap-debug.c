@@ -18,9 +18,9 @@
 #include "print.h"
 
 enum qd_keycodes {
-  QD_ESC,             //default: escape,  shift: ~
-  QD_M,                //default: M, ctrl: enter
-  QD_ALT
+  QD_ESC,             // default: escape,  shift: ~
+  QD_M,               // default: M, ctrl: enter
+  QD_ALT              // layout switch
 };
 
 #define _BASE 0
@@ -52,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |-----------------------------------------------------------------------------------------+
    * |           |VolUp|VolDn|VolMu|     |     | NK  |VolMu|VolDn|VolUp|     |                 |
    * |-----------------------------------------------------------------------------------------+
-   * |       |       |       |                                 |       |  L2   |       |       |
+   * |       |       |       |                                 |QD_ALT |  L2   |       |       |
    * `-----------------------------------------------------------------------------------------'
    */
 
