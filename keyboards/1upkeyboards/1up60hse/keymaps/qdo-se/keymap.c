@@ -71,27 +71,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `-----------------------------------------------------------------------------------------'
    */
 
-  [_BASE] = LAYOUT_60_ansi(
-                           QD_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
-                           KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
-                           KC_LCTL,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_RCTL,
-                           KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     QD_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
-                           KC_CAPS,  KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  QD_FN,              KC_ENT
-                           ),
-  [_FUNCTION] = LAYOUT_60_ansi(
-                               KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
-                               _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
-                               _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
-                               _______,  KC_VOLU,  KC_VOLD,  KC_MUTE,  _______,  _______,  NK_TOGG,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,                      _______,
-                               _______,  _______,  _______,                      _______,                                QD_ALT,    MO(2),    MO(1),              _______
-                               ),
-  [_RGB] = LAYOUT_60_ansi(
-                          _______, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET,
-                          BL_TOGG, BL_INC,   BL_DEC,   BL_STEP,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-                          RGB_TOG, RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  RGB_M_P,  RGB_M_B,  RGB_M_R,  RGB_M_SW, _______,  _______,            _______,
-                          _______, RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  RGB_M_SN, RGB_M_K,  RGB_M_X,  RGB_M_G,  _______,                      _______,
-                          _______, _______,  _______,                      _______,                                _______,  _______,  MO(1),              _______
-                          )
+  [0] = LAYOUT_60_ansi(
+                       QD_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+                       KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
+                       KC_LCTL,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_RCTL,
+                       KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     QD_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
+                       KC_CAPS,  KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  QD_FN,              KC_ENT
+                       ),
+  [1] = LAYOUT_60_ansi(
+                       KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
+                       _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
+                       _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
+                       _______,  KC_VOLU,  KC_VOLD,  KC_MUTE,  _______,  _______,  NK_TOGG,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,                      _______,
+                       _______,  _______,  _______,                      _______,                                QD_ALT,   MO(2),    _______,            _______
+                       ),
+  [2] = LAYOUT_60_ansi(
+                       _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET,
+                       BL_TOGG,  BL_INC,   BL_DEC,   BL_STEP,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
+                       RGB_TOG,  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  RGB_M_P,  RGB_M_B,  RGB_M_R,  RGB_M_SW, _______,  _______,            _______,
+                       _______,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  RGB_M_SN, RGB_M_K,  RGB_M_X,  RGB_M_G,  _______,                      _______,
+                       _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______
+                       )
 };
 
 // Runs just one time when the keyboard initializes.
@@ -122,27 +122,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
   uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
   if (alt) {
-    print("QD_ALT is active!\n");
+    print("QD_ALT is active\n");
   } else {
-    print("QD_ALT is inactive!\n");
+    print("QD_ALT is INactive\n");
   }
 
   if (layer_state_is(0)) {
-    print("Layer 0 is active!\n");
+    print("Layer 0 is active\n");
   }
 
   if (layer_state_is(1)) {
-    print("Layer 1 is active!\n");
+    print("Layer 1 is active\n");
   }
 
   if (layer_state_is(2)) {
-    print("Layer 2 is active!\n");
+    print("Layer 2 is active\n");
   }
 
   if (layer_state_is(3)) {
-    print("Layer 3 is active!\n");
+    print("Layer 3 is active\n");
   }
 #endif
+  
 
   switch (keycode) {
   case QD_ESC:
@@ -185,6 +186,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code(kc);
     }
     return false;
+  case QD_FN:
+    if (record->event.pressed) {
+      print("QD_FN is activated\n");
+      
+      layer_clear();
+      layer_on(1);
+    } else {
+      if (!alt) {
+        layer_on(0);
+      }
+    }
+
+    return false;
   case QD_ALT:
     if (record->event.pressed) {
       alt = true;
@@ -207,7 +221,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(1);
       }
     }
-    return true;    
+    return true;
   case KC_F2:
     if (record->event.pressed) {
       if (alt) {
@@ -216,16 +230,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
     }
     return true;
-  case QD_FN:
-    layer_clear();
-    
-    if (record->event.pressed) {
-      layer_on(1);
-    } else {
-      layer_on(0);
-    }
-
-    return false;
   default:
     return true; //Process all other keycodes normally
   }
