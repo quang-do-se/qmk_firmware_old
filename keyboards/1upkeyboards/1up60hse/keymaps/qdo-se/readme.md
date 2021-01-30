@@ -21,3 +21,14 @@ We have to handle the release for right control if the right control is not pres
 # Debug
 
 Download `hid_listen` at https://www.pjrc.com/teensy/hid_listen.html
+
+# Layout
+
+Hit `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
+
+`Fn` will always switch to layer 1 temporarily.
+
+When `Fn` is released, it reverses back to the previous layout.
+
+If layout is changed during `Fn` is pressed, releasing `Fn` will do nothing.
+

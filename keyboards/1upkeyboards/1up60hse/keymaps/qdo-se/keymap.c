@@ -116,7 +116,8 @@ void keyboard_post_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t kc;
   static bool layout_switch = false;
-  static bool layout_changed = false;
+  static uint16_t current_layout = 0;
+  static uint16_t saved_layout = 0;
 
 
 #ifdef CONSOLE_ENABLE
@@ -192,17 +193,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case MO(1):
     if (record->event.pressed) {
       print("MO(1) is activated\n");
-      
-      layer_clear();
-      layer_on(1);
+      saved_layout = current_layout;
+      layer_move(1);
     } else {
-      if (!layout_changed) {
+      if (saved_layout == current_layout) {
         print("MO(1) clears layout\n");
-        layer_clear();
-        layer_on(0);
-      } else {
-        layout_changed = false;
-      }
+        layer_move(current_layout);
+      } 
     }
 
     return false;
@@ -218,8 +215,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case KC_GRV:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_move(0);
-        layout_changed = true;
+        current_layout = 0;
+        layer_move(current_layout);
       }
     }
     return true;
@@ -227,8 +224,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case KC_F1:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_move(1);
-        layout_changed = true;
+        current_layout = 1;
+        layer_move(current_layout);
       }
     }
     return true;
@@ -236,8 +233,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case KC_F2:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_move(2);
-        layout_changed = true;
+        current_layout = 2;
+        layer_move(current_layout);
       }
     }
     return true;
