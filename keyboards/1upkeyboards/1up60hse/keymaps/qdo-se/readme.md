@@ -17,3 +17,7 @@ Use:
 - `register_mods(MOD_BIT(KC_RCTRL));`
 
 We have to handle the release for right control if the right control is not pressed.
+
+# Debug
+
+Download `hid_listen` at https://www.pjrc.com/teensy/hid_listen.html

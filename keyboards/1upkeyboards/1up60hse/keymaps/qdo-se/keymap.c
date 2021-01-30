@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
                        KC_LCTL,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_RCTL,
                        KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     QD_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
-                       KC_CAPS,  KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  QD_FN,              KC_ENT
+                       KC_CAPS,  KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  MO(1),              KC_ENT
                        ),
   [1] = LAYOUT_60_ansi(
                        KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
@@ -116,12 +116,13 @@ void keyboard_post_init_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t kc;
-  static bool alt = false;
+  static bool layout_switch = false;
+  static bool layout_changed = false;
 
 
 #ifdef CONSOLE_ENABLE
   uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-  if (alt) {
+  if (layout_switch) {
     print("QD_ALT is active\n");
   } else {
     print("QD_ALT is INactive\n");
@@ -186,47 +187,54 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code(kc);
     }
     return false;
-  case QD_FN:
+  case MO(1):
     if (record->event.pressed) {
-      print("QD_FN is activated\n");
+      print("MO(1) is activated\n");
       
       layer_clear();
       layer_on(1);
     } else {
-      if (!alt) {
+      if (!layout_changed) {
+        print("MO(1) clears layout\n");
+        layer_clear();
         layer_on(0);
+      } else {
+        layout_changed = false;
       }
     }
 
     return false;
   case QD_ALT:
     if (record->event.pressed) {
-      alt = true;
+      layout_switch = true;
     } else {
-      alt = false;
+      layout_switch = false;
     }
     return false;
   case KC_GRV:
     if (record->event.pressed) {
-      if (alt) {
+      if (layout_switch) {
         layer_clear();
         layer_on(0);
+        layout_changed = true;
       }
     }
     return true;
   case KC_F1:
     if (record->event.pressed) {
-      if (alt) {
+      if (layout_switch) {
         layer_clear();
         layer_on(1);
+        layout_changed = true;
       }
     }
     return true;
   case KC_F2:
     if (record->event.pressed) {
-      if (alt) {
+      if (layout_switch) {
         layer_clear();
         layer_on(2);
+        layout_changed = true;
       }
     }
     return true;
