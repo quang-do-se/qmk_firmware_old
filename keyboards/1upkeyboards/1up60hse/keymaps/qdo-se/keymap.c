@@ -20,8 +20,7 @@
 enum qd_keycodes {
   QD_ESC,             //default: escape,  shift: ~
   QD_M,                //default: M, ctrl: enter
-  QD_ALT,
-  QD_FN
+  QD_ALT
 };
 
 #define _BASE 0
@@ -147,6 +146,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   
 
   switch (keycode) {
+
   case QD_ESC:
     if (record->event.pressed) {
       if (MODS_GUI) {
@@ -162,6 +162,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code(kc);
     }
     return false;
+
   case QD_M:
     if (record->event.pressed) {
       if (MODS_CTRL) {
@@ -187,6 +188,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code(kc);
     }
     return false;
+
   case MO(1):
     if (record->event.pressed) {
       print("MO(1) is activated\n");
@@ -204,6 +206,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     return false;
+
   case QD_ALT:
     if (record->event.pressed) {
       layout_switch = true;
@@ -211,33 +214,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       layout_switch = false;
     }
     return false;
+
   case KC_GRV:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_clear();
-        layer_on(0);
+        layer_move(0);
         layout_changed = true;
       }
     }
     return true;
+
   case KC_F1:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_clear();
-        layer_on(1);
+        layer_move(1);
         layout_changed = true;
       }
     }
     return true;
+
   case KC_F2:
     if (record->event.pressed) {
       if (layout_switch) {
-        layer_clear();
-        layer_on(2);
+        layer_move(2);
         layout_changed = true;
       }
     }
     return true;
+
   default:
     return true; //Process all other keycodes normally
   }
