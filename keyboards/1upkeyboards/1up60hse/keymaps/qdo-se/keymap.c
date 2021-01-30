@@ -116,6 +116,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   case QD_ESC:
     if (record->event.pressed) {
+      if (switching_layout) {
+        current_layout = 0;
+        layer_move(current_layout);
+        return false;
+      }
+
       if (MODS_GUI) {
         kc = KC_ESCAPE;
       } else if (MODS_SHIFT) {
@@ -190,6 +196,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 
+  case KC_1:
   case KC_F1:
     if (record->event.pressed) {
       if (switching_layout) {
@@ -200,6 +207,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 
+  case KC_2:
   case KC_F2:
     if (record->event.pressed) {
       if (switching_layout) {

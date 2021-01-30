@@ -31,10 +31,13 @@ COMMAND_ENABLE = yes        # Commands for debug and configuration
 
 # Layout
 
-Hit `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
+- Hit `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
 
-`Fn` will always switch to layer 1 temporarily.
+- `Fn` will always switch to layer 1 temporarily.
 
-When `Fn` is released, it reverses back to the previous layout.
+- When `Fn` is released, it reverses back to the previous layout.
 
-If layout is changed during `Fn` is pressed, releasing `Fn` will do nothing.
+- If layout is changed during `Fn` is pressed, releasing `Fn` will do nothing.
+
+- When layer 2 is active, the fall-through layout is layer 0, not layer 1; because layer 1 is not active
+  - We can turn on layer 1 so that layer 2 can fall through to layer 1 before layer 0
