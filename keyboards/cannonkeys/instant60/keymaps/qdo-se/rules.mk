@@ -23,7 +23,7 @@ FAUXCLICKY_ENABLE = no    # Use buzzer to emulate clicky switches
 
 RGBLIGHT_ENABLE = no      # Disable keyboard RGB underglow
 RGB_MATRIX_DRIVER = WS2812
-WS2812_DRIVER = spi
+WS2812_DRIVER = spi				# spi or pwm - https://github.com/qmk/qmk_firmware/blob/master/docs/ws2812_driver.md
 
 LAYOUTS = 60_ansi
 
