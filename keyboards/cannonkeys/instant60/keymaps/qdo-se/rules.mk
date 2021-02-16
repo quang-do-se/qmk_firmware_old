@@ -5,21 +5,29 @@ MCU = STM32F072
 #   comment out to disable the options.
 #
 
-BOOTMAGIC_ENABLE = lite	# Virtual DIP switch configuration
-MOUSEKEY_ENABLE = yes	# Mouse keys
-EXTRAKEY_ENABLE = yes	# Audio control and System control
-CONSOLE_ENABLE = yes	# Console for debug
-COMMAND_ENABLE = yes    # Commands for debug and configuration
-SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
-NKRO_ENABLE = yes	    # USB Nkey Rollover
-CUSTOM_MATRIX = no # Custom matrix file
-BACKLIGHT_ENABLE = yes
-RGBLIGHT_ENABLE = no        # Disable keyboard RGB underglow
+BOOTMAGIC_ENABLE = lite		# Virtual DIP switch configuration
+
+BACKLIGHT_ENABLE = yes		# Enable keyboard backlight functionality
+EXTRAKEY_ENABLE = yes			# Audio control and System control
+NKRO_ENABLE = yes					# USB Nkey Rollover
+
+MOUSEKEY_ENABLE = no			# Mouse keys
+CONSOLE_ENABLE = no				# Console for debug
+COMMAND_ENABLE = no				# Commands for debug and configuration
+SLEEP_LED_ENABLE = no			# Breathing sleep LED during USB suspend
+CUSTOM_MATRIX = no				# Custom matrix file
+BLUETOOTH_ENABLE = no     # Bluetooth support
+AUDIO_ENABLE = no         # Audio output
+MIDI_ENABLE = no          # MIDI support
+FAUXCLICKY_ENABLE = no    # Use buzzer to emulate clicky switches
+
+RGBLIGHT_ENABLE = no      # Disable keyboard RGB underglow
+RGB_MATRIX_DRIVER = WS2812
 WS2812_DRIVER = spi
 
-LAYOUTS = 60_ansi 60_tsangan_hhkb
+LAYOUTS = 60_ansi
 
-# Wildcard to allow APM32 MCU 
+# Wildcard to allow APM32 MCU
 DFU_SUFFIX_ARGS = -p FFFF -v FFFF
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
