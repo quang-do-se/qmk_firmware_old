@@ -215,11 +215,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return true;
 
+    case KC_RSFT:
+        // Toggle ENTERTAINMENT_LAYOUT
+        if (record->event.pressed) {
+            if (switching_layout) {
+                if (current_layout == ENTERTAINMENT_LAYOUT) {
+                    current_layout = 0;
+                    backlight_level(0);
+                    backlight_disable();
+                } else {
+                    current_layout = ENTERTAINMENT_LAYOUT;
+                    backlight_level(1);
+                    backlight_enable();
+                }
+
+                layer_move(current_layout);
+                return false;
+            }
+        }
+        return true;
+
     case KC_1:
     case KC_F1:
         if (record->event.pressed) {
             if (switching_layout) {
-                current_layout = ENTERTAINMENT_LAYOUT;
+                current_layout = 1;
                 layer_move(current_layout);
                 backlight_level(1);
                 backlight_enable();
