@@ -172,16 +172,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
 
     case MO(1):
+        /**
+         * Override default MO(1) behavior to allow to change layout.
+         *
+         * If current layout is not changed during pressing MO(1), reverse back to previous layout once releasing MO(1). Just like default MO(1) behavior.
+         * However, if current layout is changed, keep the current layout.
+         *
+         * For example:
+         * If current layout is 2, pressing MO(1) will move to layout 1. If current layout is not changed, releasing MO(1) will move back to current layout 2.
+         * If current layout is 2, pressing MO(1) will move to layout 1. If current layout is changed to 3, releasing MO(1) will do NOTHING and current layout is 3.
+         *
+         */
         if (record->event.pressed) {
             previous_layout_mo1 = current_layout;
             layer_move(1);
         } else {
-            // If layout is not changed during pressing MO(1), reverse back to previous layout once releasing MO(1).
-            // If layout is changed, keep the current layout.
-            //
-            // For example:
-            // If active layer is 2, pressing MO(1) will move to layer 1. If active layer is not changed, releasing MO(1) will move back to layer 2.
-            // If active layer is 2, pressing MO(1) will move to layer 1. If active layer is changed to 3, releasing MO(1) will do nothing and active layer is 3.
             if (previous_layout_mo1 == current_layout) {
                 layer_move(previous_layout_mo1);
             }
