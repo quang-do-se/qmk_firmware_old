@@ -191,6 +191,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (switching_layout) {
         current_layout = 0;
         layer_move(current_layout);
+        backlight_disable();
         return false;
       }
     }
@@ -202,6 +203,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (switching_layout) {
         current_layout = 1;
         layer_move(current_layout);
+        backlight_enable();
+        backlight_level(1);
         return false;
       }
     }
@@ -213,6 +216,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (switching_layout) {
         current_layout = 2;
         layer_move(current_layout);
+        backlight_enable();
+        backlight_level(2);
         return false;
       }
     }
