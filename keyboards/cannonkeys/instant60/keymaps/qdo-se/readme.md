@@ -1,8 +1,10 @@
 # Flash
 
-`qmk compile -kb cannonkeys/instant60 -km qdo-se && qmk flash -kb cannonkeys/instant60 -km qdo-se`
+- Press `Fn + Super + Backspace` to Reset mode
 
-Note: the underglow cannot be turned off normally.
+- `qmk compile -kb cannonkeys/instant60 -km qdo-se && qmk flash -kb cannonkeys/instant60 -km qdo-se`
+
+- Note: the underglow cannot be turned off normally.
 
 # Notes
 
@@ -29,7 +31,7 @@ COMMAND_ENABLE = yes        # Commands for debug and configuration
 
 # Layout
 
-- Hit `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
+- Press `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
 
 - `Fn` will always switch to layer 1 temporarily.
 
