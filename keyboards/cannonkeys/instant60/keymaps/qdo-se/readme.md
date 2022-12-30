@@ -39,6 +39,6 @@ COMMAND_ENABLE = yes        # Commands for debug and configuration
 
 - If layout is changed during `Fn` is pressed, releasing `Fn` will do nothing.
 
-- When layer 2 is active, the fall-through layout is layer 0, not layer 1; because layer 1 is not active
-  - We can turn on layer 1 so that layer 2 can fall through to layer 1 before layer 0
+- https://github.com/qmk/qmk_firmware/blob/master/docs/keymap.md#layer-precedence-and-transparency
+
 
