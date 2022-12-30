@@ -89,7 +89,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          RGB_TOG,  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  RGB_M_P,  RGB_M_B,  RGB_M_R,  RGB_M_SW, _______,  _______,            _______,
                          _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      _______,
                          _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______
-                         )
+                         ),
+    // ENTERTAINMENT LAYOUT
+    [3] = LAYOUT_60_ansi(
+                         KC_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+                         _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
+                         _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
+                         _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,                      _______,
+                         _______,  _______,  _______,                      _______,                                QD_ALT,   MO(2),    _______,            _______
+                         ),
 };
 
 // Runs just one time when the keyboard initializes.
@@ -109,7 +117,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t kc;
     static bool switching_layout = false;
     static uint16_t current_layout = 0;
-    static uint16_t saved_layout = 0;
+    static uint16_t previous_layout_mo1 = 0;
+    static uint16_t ENTERTAINMENT_LAYOUT = 3;
 
 
     switch (keycode) {
@@ -164,15 +173,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MO(1):
         if (record->event.pressed) {
-            saved_layout = current_layout;
+            previous_layout_mo1 = current_layout;
             layer_move(1);
         } else {
-            // If layout is not changed during pressing MO(1), reverse back to previous layout once releaseing MO(1)
+            // If layout is not changed during pressing MO(1), reverse back to previous layout once releasing MO(1).
+            // If layout is changed, keep the current layout.
+            //
             // For example:
-            // If active layer is 2, presseing MO(1) will move to layer 1. If active layer is not changed, releasing MO(1) will move back to layer 2.
-            // If active layer is 2, presseing MO(1) will move to layer 1. If active layer is changed to 0, releasing MO(1) will do nothing and active layer is 0.
-            if (saved_layout == current_layout) {
-                layer_move(current_layout);
+            // If active layer is 2, pressing MO(1) will move to layer 1. If active layer is not changed, releasing MO(1) will move back to layer 2.
+            // If active layer is 2, pressing MO(1) will move to layer 1. If active layer is changed to 3, releasing MO(1) will do nothing and active layer is 3.
+            if (previous_layout_mo1 == current_layout) {
+                layer_move(previous_layout_mo1);
             }
         }
 
@@ -186,6 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
 
+    case KC_ESC:
     case KC_GRV:
         if (record->event.pressed) {
             if (switching_layout) {
@@ -202,7 +214,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_F1:
         if (record->event.pressed) {
             if (switching_layout) {
-                current_layout = 1;
+                current_layout = ENTERTAINMENT_LAYOUT;
                 layer_move(current_layout);
                 backlight_level(1);
                 backlight_enable();
