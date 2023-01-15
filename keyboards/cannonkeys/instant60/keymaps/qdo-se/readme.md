@@ -42,3 +42,8 @@ COMMAND_ENABLE = yes        # Commands for debug and configuration
 - https://github.com/qmk/qmk_firmware/blob/master/docs/keymap.md#layer-precedence-and-transparency
 
 - It's possible to have multiple active layers: https://docs.qmk.fm/#/feature_layers?id=functions
+
+
+# Set Polling rate to 1000Hz in `config.h` file
+
+- `#define USB_POLLING_INTERVAL_MS 1`
