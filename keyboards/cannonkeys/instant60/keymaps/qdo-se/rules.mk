@@ -6,7 +6,7 @@ MCU = STM32F072
 #
 BOOTLOADER = stm32-dfu
 
-BOOTMAGIC_ENABLE = lite     # Virtual DIP switch configuration
+BOOTMAGIC_ENABLE = yes     # Virtual DIP switch configuration
 
 BACKLIGHT_ENABLE = yes      # Enable keyboard backlight functionality
 EXTRAKEY_ENABLE = yes       # Audio control and System control
