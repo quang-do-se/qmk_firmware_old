@@ -35,7 +35,7 @@ Add print statements to `keymap.c`, for example:
   #include "print.h"
   
   print("Keycode: ");
-  uprintf("%d", keycode);
+  printf("%d", keycode);
   print("\n");
 ```
 
