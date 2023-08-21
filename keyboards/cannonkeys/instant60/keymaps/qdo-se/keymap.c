@@ -39,13 +39,15 @@ enum q_keys {
 //Tap Dance Declarations
 enum {
     TD_RCTL_ENT = 0,
-    TD_LSFT_CAPS
+    TD_LSFT_CAPS,
+    TD_FUNCTION_SWITCH
 };
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_RCTL_ENT]  = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_ENT),
     [TD_LSFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+    [TD_FUNCTION_SWITCH]  = ACTION_TAP_DANCE_DOUBLE(MO(_FUNCTION), MO(_SWITCH))
 };
 
 
