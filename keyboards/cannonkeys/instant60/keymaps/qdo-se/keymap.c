@@ -104,36 +104,32 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
     case SINGLE_TAP:
         print("Single tap\n");
         print_layer();
-        
+
         break;
     case SINGLE_HOLD:
         print("Single hold\n");
         print_layer();
-            
+
         layer_on(_FUNCTION);
-        
+
         print_layer();
         break;
     case DOUBLE_TAP:
-        /* //check to see if the layer is already set */
-        /* if (layer_state_is(_SWITCH)) { */
-        /*     //if already set, then switch it off */
-        /*     layer_off(_SWITCH); */
-        /*     backlight_level(0); */
-        /*     backlight_disable(); */
-        /* } else { */
-        /*     //if not already set, then switch the layer on */
-        /*     layer_on(_SWITCH); */
-        /*     backlight_level(_SWITCH); */
-        /*     backlight_enable(); */
-        /* } */
-
         print("Double tap\n");
         print_layer();
-        
-        layer_on(_SWITCH);
-        backlight_level(_SWITCH);
-        backlight_enable();
+
+        //check to see if the layer is already set
+        if (layer_state_is(_SWITCH)) {
+            //if already set, then switch it off
+            layer_off(_SWITCH);
+            backlight_level(0);
+            backlight_disable();
+        } else {
+            //if not already set, then switch the layer on
+            layer_on(_SWITCH);
+            backlight_level(_SWITCH);
+            backlight_enable();
+        }
 
         print_layer();
 
@@ -255,7 +251,7 @@ void print_layer(void) {
     } else if (IS_LAYER_ON(_FUNCTION)) {
         print("Layer Function\n");
     } else {
-        print("Layer Unknown\n"); 
+        print("Layer Unknown\n");
     }
 }
 
