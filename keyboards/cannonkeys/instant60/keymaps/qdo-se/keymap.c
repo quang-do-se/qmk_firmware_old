@@ -29,22 +29,31 @@ enum layers {
     _FUNCTION,
     _RGB,
     _ENTERTAINMENT,
-    _SWITCH
+    _SWITCH,
+    _LAST
+};
+
+const char* layerNames [] = {
+    [_BASE] = "Base",
+    [_FUNCTION] = "Function",
+    [_RGB] = "RGB",
+    [_ENTERTAINMENT] = "Entertainment",
+    [_SWITCH] = "Switch"
 };
 
 
-enum q_keys {
-    QD_ESC = SAFE_RANGE,            // default: escape,  shift: ~
-    QD_M,              // default: M, ctrl: enter
-    QD_BASE,           // layout 0
-    QD_FUNCTION,       // layout 1
-    QD_RGB,            // layout 2
-    QD_ENTERTAINMENT   // layout 3
+enum custom_keys {
+    QD_ESC = SAFE_RANGE,    // default: escape,  shift: ~
+    QD_M,                   // default: M, ctrl: enter
+    QD_BASE,                // layout 0
+    QD_FUNCTION,            // layout 1
+    QD_RGB,                 // layout 2
+    QD_ENTERTAINMENT        // layout 3
 };
 
 
 //Tap Dance Declarations
-enum {
+enum tap_dances {
     TD_RCTL_ENT = 0,
     TD_LSFT_CAPS,
     TD_FUNCTION_SWITCH
@@ -66,6 +75,7 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data);
 void mo_reset (qk_tap_dance_state_t *state, void *user_data);
 
 void print_layer(void);
+void enable_backlight(void);
 
 // Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -122,13 +132,11 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
         if (layer_state_is(_SWITCH)) {
             //if already set, then switch it off
             layer_off(_SWITCH);
-            backlight_level(0);
-            backlight_disable();
+            enable_backlight();
         } else {
             //if not already set, then switch the layer on
             layer_on(_SWITCH);
-            backlight_level(_SWITCH);
-            backlight_enable();
+            enable_backlight();
         }
 
         print_layer();
@@ -240,18 +248,24 @@ void matrix_scan_user(void) {
 };
 
 void print_layer(void) {
-    if (IS_LAYER_ON(_SWITCH)) {
-        print("Layer Switch\n");
-    } else if (IS_LAYER_ON(_ENTERTAINMENT)) {
-        print("Layer Entertainment\n");
-    } else if (IS_LAYER_ON(_BASE)) {
-        print("Layer Base\n");
-    } else if (IS_LAYER_ON(_RGB)) {
-        print("Layer RGB\n");
-    } else if (IS_LAYER_ON(_FUNCTION)) {
-        print("Layer Function\n");
-    } else {
-        print("Layer Unknown\n");
+    for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) {
+        if (IS_LAYER_ON(layerInt)) {
+            printf("\nLayer %s\n", layerNames[layerInt]);
+        }
+    }
+}
+
+void enable_backlight(void) {
+    for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) {
+        if (IS_LAYER_ON(layerInt)) {
+            backlight_level(layerInt);
+
+            if (layerInt == _BASE) {
+                backlight_disable();
+            } else {
+                backlight_enable();
+            }
+        }
     }
 }
 
@@ -279,39 +293,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
             unregister_code(kc);
         }
-        return false;
+        return false; // Skip all further processing of this key
 
     case QD_BASE:
         if (record->event.pressed) {
             layer_move(_BASE);
-            backlight_level(_BASE);
-            backlight_disable();
+            enable_backlight();
         }
-        return false;
+        return false; // Skip all further processing of this key
 
     case QD_FUNCTION:
         if (record->event.pressed) {
             layer_move(_FUNCTION);
-            backlight_level(_FUNCTION);
-            backlight_enable();
+            enable_backlight();
         }
-        return false;
+        return false; // Skip all further processing of this key
 
     case QD_RGB:
         if (record->event.pressed) {
             layer_move(_RGB);
-            backlight_level(_RGB);
-            backlight_enable();
+            enable_backlight();
         }
-        return false;
+        return false; // Skip all further processing of this key
 
     case QD_ENTERTAINMENT:
         if (record->event.pressed) {
             layer_move(_ENTERTAINMENT);
-            backlight_level(_ENTERTAINMENT);
-            backlight_enable();
+            enable_backlight();
         }
-        return false;
+        return false; // Skip all further processing of this key
 
     default:
         return true; //Process all other keycodes normally
