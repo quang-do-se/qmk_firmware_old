@@ -26,15 +26,12 @@ enum layers {
 
 
 enum q_keys {
-    QC_ESC,             // default: escape,  shift: ~
-    QC_M               // default: M, ctrl: enter
-};
-
-enum q_layouts {
-    QL_BASE,          // layout 0
-    QL_FUNCTION,      // layout 1
-    QL_RGB,           // layout 2
-    QL_ENTERTAINMENT  // layout 3
+    QC_ESC,            // default: escape,  shift: ~
+    QC_M,              // default: M, ctrl: enter
+    QL_BASE,           // layout 0
+    QL_FUNCTION,       // layout 1
+    QL_RGB,            // layout 2
+    QL_ENTERTAINMENT   // layout 3
 };
 
 
