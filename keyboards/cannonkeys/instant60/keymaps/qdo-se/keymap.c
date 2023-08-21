@@ -16,15 +16,6 @@
 */
 #include QMK_KEYBOARD_H
 
-enum qd_keycodes {
-    QD_ESC,             // default: escape,  shift: ~
-    QD_M,               // default: M, ctrl: enter
-    QD_L0,              // layout 0
-    QD_L1,              // layout 1
-    QD_L2,              // layout 2
-    QD_L3,              // layout 3
-};
-
 enum layers {
     _BASE,
     _FUNCTION,
@@ -32,6 +23,20 @@ enum layers {
     _ENTERTAINMENT,
     _SWITCH
 };
+
+
+enum q_keys {
+    QC_ESC,             // default: escape,  shift: ~
+    QC_M               // default: M, ctrl: enter
+};
+
+enum q_layouts {
+    QL_BASE,          // layout 0
+    QL_FUNCTION,      // layout 1
+    QL_RGB,           // layout 2
+    QL_ENTERTAINMENT  // layout 3
+};
+
 
 //Tap Dance Declarations
 enum {
@@ -90,13 +95,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [_BASE] = LAYOUT_60_ansi(
-                             QD_ESC,            KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+                             QC_ESC,            KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
                              KC_TAB,            KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
                              KC_LCTL,           KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            TD(TD_RCTL_ENT),
                              TD(TD_LSFT_CAPS),  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
                              MO(_FUNCTION),     KC_LGUI,  KC_LALT,                      KC_SPC,                                 KC_RALT,  KC_RGUI,  MO(_SWITCH),        MO(_FUNCTION)
                              ),
-    
+
     [_FUNCTION] = LAYOUT_60_ansi(
                                  KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
                                  _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
@@ -112,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
                             _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______
                             ),
-    
+
     [_ENTERTAINMENT] = LAYOUT_60_ansi(
                                       KC_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
                                       _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
@@ -120,13 +125,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_UP,                        _______,
                                       _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            _______
                                       ),
-    
+
+
     [_SWITCH] = LAYOUT_60_ansi(
-                               QD_L0,    QD_L1,    QD_L2,    QD_L3,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
-                               _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-                               _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-                               _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      QD_L3,
-                               _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______
+                               QL_BASE,  QL_FUNCTION, QL_RGB,   QL_ENTERTAINMENT, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
+                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
+                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
+                               _______,  _______,     _______,  _______,          _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      QL_ENTERTAINMENT,
+                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            _______
                                ),
 };
 
@@ -148,9 +154,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
-    case QD_ESC:
+    case QC_ESC:
         if (record->event.pressed) {
-              if (MODS_GUI) {
+            if (MODS_GUI) {
                 kc = KC_ESCAPE;
             } else if (MODS_SHIFT) {
                 kc = KC_TILDE;
@@ -164,56 +170,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
 
-    case QD_M:
-        if (record->event.pressed) {
-            if (MODS_CTRL) {
-                bool lctl_on = get_mods() & MOD_BIT(KC_LCTL);
-                bool rctl_on = get_mods() & MOD_BIT(KC_RCTL);
-
-                del_mods(MOD_MASK_CTRL);
-                kc = KC_ENT;
-                register_code(kc);
-
-                if (lctl_on) {
-                    register_code(KC_LCTL);
-                }
-
-                if (rctl_on) {
-                    register_code(KC_RCTL);
-                }
-            } else {
-                kc = KC_M;
-                register_code(kc);
-            }
-        } else {
-            unregister_code(kc);
-        }
-        return false;
-
-    /* case MO(1): */
-    /*     /\** */
-    /*      * Override default MO(1) behavior to allow to change layout. */
-    /*      * */
-    /*      * If current layout is not changed during pressing MO(1), reverse back to previous layout once releasing MO(1). Just like default MO(1) behavior. */
-    /*      * However, if current layout is changed, keep the current layout. */
-    /*      * */
-    /*      * For example: */
-    /*      * If current layout is 2, pressing MO(1) will move to layout 1. If current layout is not changed, releasing MO(1) will move back to current layout 2. */
-    /*      * If current layout is 2, pressing MO(1) will move to layout 1. If current layout is changed to 3, releasing MO(1) will do NOTHING and current layout is 3. */
-    /*      * */
-    /*      *\/ */
-    /*     if (record->event.pressed) { */
-    /*         previous_layout_mo1 = current_layout; */
-    /*         layer_move(1); */
-    /*     } else { */
-    /*         if (previous_layout_mo1 == current_layout) { */
-    /*             layer_move(previous_layout_mo1); */
-    /*         } */
-    /*     } */
-
-    /*     return false; */
-
-    case QD_L0:
+    case QL_BASE:
         if (record->event.pressed) {
             layer_move(_BASE);
             backlight_level(_BASE);
@@ -222,7 +179,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return true;
 
-    case QD_L1:
+    case QL_FUNCTION:
         if (record->event.pressed) {
             layer_move(_FUNCTION);
             backlight_level(_FUNCTION);
@@ -231,7 +188,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return true;
 
-    case QD_L2:
+    case QL_RGB:
         if (record->event.pressed) {
             layer_move(_RGB);
             backlight_level(_RGB);
@@ -240,7 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return true;
 
-    case QD_L3:
+    case QL_ENTERTAINMENT:
         if (record->event.pressed) {
             layer_move(_ENTERTAINMENT);
             backlight_level(_ENTERTAINMENT);
