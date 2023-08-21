@@ -44,11 +44,13 @@ enum {
 };
 
 void mo_function_switch(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count >= 2) {
-      layer_move(_SWITCH);
-  } else {
-      layer_move(_FUNCTION);
-  }
+    if (state->count >= 2) {
+        layer_move(_SWITCH);
+        backlight_level(_SWITCH);
+        backlight_enable();
+    } else {
+        layer_on(_FUNCTION);
+    }
 }
 
 //Tap Dance Definitions
@@ -57,9 +59,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_LSFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_FUNCTION_SWITCH]  = ACTION_TAP_DANCE_FN(mo_function_switch)
 };
-
-
-
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -200,7 +199,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             backlight_enable();
         }
         return false;
-        
+
     case QD_RGB:
         if (record->event.pressed) {
             layer_move(_RGB);
