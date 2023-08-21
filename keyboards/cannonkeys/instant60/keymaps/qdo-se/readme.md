@@ -29,6 +29,17 @@ CONSOLE_ENABLE = yes        # Console for debug
 COMMAND_ENABLE = yes        # Commands for debug and configuration
 ```
 
+Add print statements to `keymap.c`, for example: 
+
+``` c++
+  print("Keycode: ");
+  uprintf("%d", keycode);
+  print("\n");
+```
+
+Run: `sudo ~/Downloads/hid_listen`
+
+
 # Layout
 
 - Press `Fn + Alt + [ESC(0) or 1(1) or 2(2)]` to switch layout
