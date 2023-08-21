@@ -17,6 +17,29 @@
 #include QMK_KEYBOARD_H
 #include "print.h"
 
+typedef struct {
+    bool is_press_action;
+    int state;
+} tap;
+
+//Define a type for as many tap dance states as you need
+enum {
+    SINGLE_TAP = 1,
+    SINGLE_HOLD = 2,
+    DOUBLE_TAP = 3
+};
+
+
+//Declare the functions to be used with your tap dance key(s)
+
+//Function associated with all tap dances
+int cur_dance (qk_tap_dance_state_t *state);
+
+//Functions associated with individual tap dances
+void mo_finished (qk_tap_dance_state_t *state, void *user_data);
+void mo_reset (qk_tap_dance_state_t *state, void *user_data);
+
+
 enum layers {
     _BASE,
     _FUNCTION,
@@ -43,21 +66,59 @@ enum {
     TD_FUNCTION_SWITCH
 };
 
-void mo_function_switch(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count >= 2) {
-        layer_move(_SWITCH);
+
+// Ref: https://github.com/samhocevar-forks/qmk-firmware/blob/master/docs/feature_tap_dance.md#example-6-using-tap-dance-for-momentary-layer-switch-and-layer-toggle-keys
+// Determine the current tap dance state
+int cur_dance (qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->pressed) {
+            return SINGLE_TAP;
+        } else {
+            return SINGLE_HOLD;
+        }
+    } else if (state->count == 2) {
+        return DOUBLE_TAP;
+    }
+    else return 8;
+}
+
+// Initialize tap structure associated with example tap dance key
+static tap mo_tap_state = {
+    .is_press_action = true,
+    .state = 0
+};
+
+// Functions that control what our tap dance key does
+void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
+    mo_tap_state.state = cur_dance(state);
+    switch (mo_tap_state.state) {
+    case SINGLE_TAP:
+        break;
+    case SINGLE_HOLD:
+        layer_on(_FUNCTION);
+        break;
+    case DOUBLE_TAP:
+        layer_on(_SWITCH);
         backlight_level(_SWITCH);
         backlight_enable();
-    } else {
-        layer_on(_FUNCTION);
+        break;
     }
 }
 
-//Tap Dance Definitions
+void mo_reset (qk_tap_dance_state_t *state, void *user_data) {
+    // if the key was held down and now is released then switch off the layer
+    if (mo_tap_state.state==SINGLE_HOLD) {
+        layer_off(_FUNCTION);
+    }
+    mo_tap_state.state = 0;
+}
+
+
+// Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_RCTL_ENT]  = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_ENT),
     [TD_LSFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-    [TD_FUNCTION_SWITCH]  = ACTION_TAP_DANCE_FN(mo_function_switch)
+    [TD_FUNCTION_SWITCH]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, mo_finished, mo_reset)
 };
 
 
