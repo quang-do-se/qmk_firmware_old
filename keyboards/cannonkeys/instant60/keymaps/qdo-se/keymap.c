@@ -65,6 +65,8 @@ int cur_dance (qk_tap_dance_state_t *state);
 void mo_finished (qk_tap_dance_state_t *state, void *user_data);
 void mo_reset (qk_tap_dance_state_t *state, void *user_data);
 
+void print_layer();
+
 // Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_RCTL_ENT]  = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_ENT),
@@ -95,32 +97,53 @@ static tap mo_tap_state = {
 
 // Functions that control what our tap dance key does
 void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
+    print("mo_finished\n");
     mo_tap_state.state = cur_dance(state);
+    printf("state: %d", mo_tap_state);
+
     switch (mo_tap_state.state) {
     case SINGLE_TAP:
+        print("Single tap\n");
+        print_layer();
+        
         break;
     case SINGLE_HOLD:
+        print("Single hold\n");
+        print_layer()
+            
         layer_on(_FUNCTION);
+        
+        print_layer();
         break;
     case DOUBLE_TAP:
-        //check to see if the layer is already set
-        if (layer_state_is(_SWITCH)) {
-            //if already set, then switch it off
-            layer_off(_SWITCH);
-            backlight_level(0);
-            backlight_disable();
-        } else {
-            //if not already set, then switch the layer on
-            layer_on(_SWITCH);
-            backlight_level(_SWITCH);
-            backlight_enable();
-        }
+        /* //check to see if the layer is already set */
+        /* if (layer_state_is(_SWITCH)) { */
+        /*     //if already set, then switch it off */
+        /*     layer_off(_SWITCH); */
+        /*     backlight_level(0); */
+        /*     backlight_disable(); */
+        /* } else { */
+        /*     //if not already set, then switch the layer on */
+        /*     layer_on(_SWITCH); */
+        /*     backlight_level(_SWITCH); */
+        /*     backlight_enable(); */
+        /* } */
+
+        print("Double tap\n");
+        print_layer();
+        
+        layer_on(_SWITCH);
+        backlight_level(_SWITCH);
+        backlight_enable();
+
+        print_layer();
 
         break;
     }
 }
 
 void mo_reset (qk_tap_dance_state_t *state, void *user_data) {
+    print("mo_reset\n");
     // if the key was held down and now is released then switch off the layer
     if (mo_tap_state.state==SINGLE_HOLD) {
         layer_off(_FUNCTION);
@@ -189,7 +212,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  ),
 
     [_RGB] = LAYOUT_60_ansi(
-                            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
+                            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
                             BL_TOGG,  BL_INC,   BL_DEC,   BL_STEP,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
                             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
                             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
@@ -209,7 +232,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
                                _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            QD_ENTERTAINMENT,
                                _______,  _______,     _______,  _______,          _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      _______,
-                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            TD(TD_FUNCTION_SWITCH)
+                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            MO(_SWITCH)
                                ),
 };
 
@@ -220,6 +243,22 @@ void matrix_init_user(void) {
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
 };
+
+void print_layer() {
+    if (IS_LAYER_ON(_SWITCH)) {
+        print("Layer Switch\n");
+    } else if (IS_LAYER_ON(_ENTERTAINMENT)) {
+        print("Layer Entertainment\n");
+    } else if (IS_LAYER_ON(_BASE)) {
+        print("Layer Base\n");
+    } else if (IS_LAYER_ON(_RGB)) {
+        print("Layer RGB\n");
+    } else if (IS_LAYER_ON(_FUNCTION)) {
+        print("Layer Function\n");
+    } else {
+        print("Layer Unknown\n"); 
+    }
+}
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTL))

@@ -32,6 +32,8 @@ COMMAND_ENABLE = yes        # Commands for debug and configuration
 Add print statements to `keymap.c`, for example: 
 
 ``` c++
+  #include "print.h"
+  
   print("Keycode: ");
   uprintf("%d", keycode);
   print("\n");

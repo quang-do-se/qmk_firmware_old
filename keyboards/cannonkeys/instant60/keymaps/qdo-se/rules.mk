@@ -13,8 +13,6 @@ EXTRAKEY_ENABLE = yes       # Audio control and System control
 NKRO_ENABLE = yes           # USB Nkey Rollover
 
 MOUSEKEY_ENABLE = no        # Mouse keys
-CONSOLE_ENABLE = no         # Console for debug
-COMMAND_ENABLE = no         # Commands for debug and configuration
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 CUSTOM_MATRIX = no          # Custom matrix file
 BLUETOOTH_ENABLE = no       # Bluetooth support
@@ -34,3 +32,6 @@ DFU_SUFFIX_ARGS = -p FFFF -v FFFF            # Wildcard to allow APM32 MCU
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE    # Enter lower-power sleep mode when on the ChibiOS idle thread
 
 TAP_DANCE_ENABLE=yes
+
+CONSOLE_ENABLE = yes         # Console for debug
+COMMAND_ENABLE = yes         # Commands for debug and configuration
