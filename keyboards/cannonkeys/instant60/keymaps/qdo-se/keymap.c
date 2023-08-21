@@ -65,7 +65,7 @@ int cur_dance (qk_tap_dance_state_t *state);
 void mo_finished (qk_tap_dance_state_t *state, void *user_data);
 void mo_reset (qk_tap_dance_state_t *state, void *user_data);
 
-void print_layer();
+void print_layer(void);
 
 // Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -99,7 +99,6 @@ static tap mo_tap_state = {
 void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
     print("mo_finished\n");
     mo_tap_state.state = cur_dance(state);
-    printf("state: %d", mo_tap_state);
 
     switch (mo_tap_state.state) {
     case SINGLE_TAP:
@@ -109,7 +108,7 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
         break;
     case SINGLE_HOLD:
         print("Single hold\n");
-        print_layer()
+        print_layer();
             
         layer_on(_FUNCTION);
         
@@ -208,7 +207,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
                                  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
                                  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_UP,                        _______,
-                                 _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            MO(_SWITCH)
+                                 _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            TD(TD_FUNCTION_SWITCH)
                                  ),
 
     [_RGB] = LAYOUT_60_ansi(
@@ -216,7 +215,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             BL_TOGG,  BL_INC,   BL_DEC,   BL_STEP,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
                             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
                             _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,
-                            _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            MO(_SWITCH)
+                            _______,  _______,  _______,                      _______,                                _______,  _______,  _______,            TD(TD_FUNCTION_SWITCH)
                             ),
 
     [_ENTERTAINMENT] = LAYOUT_60_ansi(
@@ -224,15 +223,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
                                       _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
                                       _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_UP,                        _______,
-                                      _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            MO(_SWITCH)
+                                      _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            TD(TD_FUNCTION_SWITCH)
                                       ),
 
     [_SWITCH] = LAYOUT_60_ansi(
                                QD_BASE,  QD_FUNCTION, QD_RGB,   QD_ENTERTAINMENT, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
-                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            QD_ENTERTAINMENT,
+                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QD_ENTERTAINMENT,
+                               _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
                                _______,  _______,     _______,  _______,          _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      _______,
-                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            MO(_SWITCH)
+                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            TD(TD_FUNCTION_SWITCH)
                                ),
 };
 
@@ -244,7 +243,7 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 };
 
-void print_layer() {
+void print_layer(void) {
     if (IS_LAYER_ON(_SWITCH)) {
         print("Layer Switch\n");
     } else if (IS_LAYER_ON(_ENTERTAINMENT)) {
