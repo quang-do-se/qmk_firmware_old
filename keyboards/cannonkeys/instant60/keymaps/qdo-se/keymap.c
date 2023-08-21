@@ -15,6 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include QMK_KEYBOARD_H
+#include "print.h"
 
 enum layers {
     _BASE,
@@ -26,7 +27,7 @@ enum layers {
 
 
 enum q_keys {
-    QD_ESC,            // default: escape,  shift: ~
+    QD_ESC = SAFE_RANGE,            // default: escape,  shift: ~
     QD_M,              // default: M, ctrl: enter
     QD_BASE,           // layout 0
     QD_FUNCTION,       // layout 1
@@ -118,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ENTERTAINMENT] = LAYOUT_60_ansi(
                                       KC_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
                                       _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
-                                      _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
+                                      _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_xPGDN,  KC_END,             _______,
                                       _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_UP,                        _______,
                                       _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            MO(4)
                                       ),
@@ -149,6 +150,10 @@ void matrix_scan_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t kc;
 
+    /* print("Keycode: "); */
+    /* uprintf("%d", keycode); */
+    /* print("\n"); */
+
     switch (keycode) {
 
     case QD_ESC:
@@ -167,41 +172,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
 
-    /* case QD_BASE: */
-    /*     if (record->event.pressed) { */
-    /*         layer_move(_BASE); */
-    /*         backlight_level(_BASE); */
-    /*         backlight_disable(); */
-    /*         return false; */
-    /*     } */
-    /*     return true; */
+    case QD_BASE:
+        if (record->event.pressed) {
+            layer_move(_BASE);
+            backlight_level(_BASE);
+            backlight_disable();
+        }
+        return false;
 
-    /* case QD_FUNCTION: */
-    /*     if (record->event.pressed) { */
-    /*         layer_move(_FUNCTION); */
-    /*         backlight_level(_FUNCTION); */
-    /*         backlight_enable(); */
-    /*         return false; */
-    /*     } */
-    /*     return true; */
+    case QD_FUNCTION:
+        if (record->event.pressed) {
+            layer_move(_FUNCTION);
+            backlight_level(_FUNCTION);
+            backlight_enable();
+        }
+        return false;
+        
+    case QD_RGB:
+        if (record->event.pressed) {
+            layer_move(_RGB);
+            backlight_level(_RGB);
+            backlight_enable();
+        }
+        return false;
 
-    /* case QD_RGB: */
-    /*     if (record->event.pressed) { */
-    /*         layer_move(_RGB); */
-    /*         backlight_level(_RGB); */
-    /*         backlight_enable(); */
-    /*         return false; */
-    /*     } */
-    /*     return true; */
-
-    /* case QD_ENTERTAINMENT: */
-    /*     if (record->event.pressed) { */
-    /*         layer_move(_ENTERTAINMENT); */
-    /*         backlight_level(_ENTERTAINMENT); */
-    /*         backlight_enable(); */
-    /*         return false; */
-    /*     } */
-    /*     return true; */
+    case QD_ENTERTAINMENT:
+        if (record->event.pressed) {
+            layer_move(_ENTERTAINMENT);
+            backlight_level(_ENTERTAINMENT);
+            backlight_enable();
+        }
+        return false;
 
     default:
         return true; //Process all other keycodes normally
