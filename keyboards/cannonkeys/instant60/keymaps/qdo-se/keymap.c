@@ -15,7 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include QMK_KEYBOARD_H
-#include "print.h"
+/* #include "print.h" */
 
 //Define a type for as many tap dance states as you need
 enum {
@@ -74,8 +74,7 @@ int cur_dance (qk_tap_dance_state_t *state);
 void mo_finished (qk_tap_dance_state_t *state, void *user_data);
 void mo_reset (qk_tap_dance_state_t *state, void *user_data);
 
-void print_layer(void);
-void enable_backlight(void);
+void change_backlight(void);
 
 // Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -107,46 +106,30 @@ static tap mo_tap_state = {
 
 // Functions that control what our tap dance key does
 void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
-    print("mo_finished\n");
     mo_tap_state.state = cur_dance(state);
 
     switch (mo_tap_state.state) {
     case SINGLE_TAP:
-        print("Single tap\n");
-        print_layer();
-
         break;
     case SINGLE_HOLD:
-        print("Single hold\n");
-        print_layer();
-
         layer_on(_FUNCTION);
-
-        print_layer();
         break;
     case DOUBLE_TAP:
-        print("Double tap\n");
-        print_layer();
-
         //check to see if the layer is already set
         if (layer_state_is(_SWITCH)) {
             //if already set, then switch it off
             layer_off(_SWITCH);
-            enable_backlight();
+            change_backlight();
         } else {
             //if not already set, then switch the layer on
             layer_on(_SWITCH);
-            enable_backlight();
+            change_backlight();
         }
-
-        print_layer();
-
         break;
     }
 }
 
 void mo_reset (qk_tap_dance_state_t *state, void *user_data) {
-    print("mo_reset\n");
     // if the key was held down and now is released then switch off the layer
     if (mo_tap_state.state==SINGLE_HOLD) {
         layer_off(_FUNCTION);
@@ -247,15 +230,15 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 };
 
-void print_layer(void) {
-    for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) {
-        if (IS_LAYER_ON(layerInt)) {
-            printf("\nLayer %s\n", layerNames[layerInt]);
-        }
-    }
-}
+/* void print_layer(void) { */
+/*     for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) { */
+/*         if (IS_LAYER_ON(layerInt)) { */
+/*             printf("\nLayer %s\n", layerNames[layerInt]); */
+/*         } */
+/*     } */
+/* } */
 
-void enable_backlight(void) {
+void change_backlight(void) {
     for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) {
         if (IS_LAYER_ON(layerInt)) {
             backlight_level(layerInt);
@@ -298,28 +281,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QD_BASE:
         if (record->event.pressed) {
             layer_move(_BASE);
-            enable_backlight();
+            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_FUNCTION:
         if (record->event.pressed) {
             layer_move(_FUNCTION);
-            enable_backlight();
+            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_RGB:
         if (record->event.pressed) {
             layer_move(_RGB);
-            enable_backlight();
+            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_ENTERTAINMENT:
         if (record->event.pressed) {
             layer_move(_ENTERTAINMENT);
-            enable_backlight();
+            change_backlight();
         }
         return false; // Skip all further processing of this key
 
