@@ -103,9 +103,19 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
         layer_on(_FUNCTION);
         break;
     case DOUBLE_TAP:
-        layer_on(_SWITCH);
-        backlight_level(_SWITCH);
-        backlight_enable();
+        //check to see if the layer is already set
+        if (layer_state_is(_SWITCH)) {
+            //if already set, then switch it off
+            layer_off(_SWITCH);
+            backlight_level(0);
+            backlight_disable();
+        } else {
+            //if not already set, then switch the layer on
+            layer_on(_SWITCH);
+            backlight_level(_SWITCH);
+            backlight_enable();
+        }
+
         break;
     }
 }
@@ -194,13 +204,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       _______,  _______,  _______,                      _______,                                KC_LEFT,  KC_DOWN,  KC_RGHT,            MO(_SWITCH)
                                       ),
 
-
     [_SWITCH] = LAYOUT_60_ansi(
                                QD_BASE,  QD_FUNCTION, QD_RGB,   QD_ENTERTAINMENT, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
                                _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
                                _______,  _______,     _______,  _______,          _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            QD_ENTERTAINMENT,
                                _______,  _______,     _______,  _______,          _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,                      _______,
-                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            MO(_SWITCH)
+                               _______,  _______,     _______,                              _______,                                _______,  _______,  _______,            TD(TD_FUNCTION_SWITCH)
                                ),
 };
 
