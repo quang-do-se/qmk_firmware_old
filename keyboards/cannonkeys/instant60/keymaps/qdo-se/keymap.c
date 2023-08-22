@@ -239,7 +239,7 @@ void matrix_scan_user(void) {
 /* } */
 
 void change_backlight(void) {
-    for ( int layerInt = _BASE; layerInt != _LAST; layerInt++ ) {
+    for (int layerInt = _BASE; layerInt != _LAST; layerInt++) {
         if (IS_LAYER_ON(layerInt)) {
             backlight_level(layerInt);
 
