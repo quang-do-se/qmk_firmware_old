@@ -119,11 +119,9 @@ void mo_finished (qk_tap_dance_state_t *state, void *user_data) {
         if (layer_state_is(_SWITCH)) {
             //if already set, then switch it off
             layer_off(_SWITCH);
-            change_backlight();
         } else {
             //if not already set, then switch the layer on
             layer_on(_SWITCH);
-            change_backlight();
         }
         break;
     }
@@ -238,18 +236,19 @@ void matrix_scan_user(void) {
 /*     } */
 /* } */
 
-void change_backlight(void) {
-    for (int layerInt = _BASE; layerInt != _LAST; layerInt++) {
-        if (IS_LAYER_ON(layerInt)) {
-            backlight_level(layerInt);
 
-            if (layerInt == _BASE) {
-                backlight_disable();
-            } else {
-                backlight_enable();
-            }
-        }
+layer_state_t layer_state_set_user(layer_state_t state) {
+    uint8_t current_layer = get_highest_layer(state);
+
+    backlight_level(current_layer);
+
+    if (current_layer == _BASE) {
+        backlight_disable();
+    } else {
+        backlight_enable();
     }
+
+    return state;
 }
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT))
@@ -281,28 +280,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QD_BASE:
         if (record->event.pressed) {
             layer_move(_BASE);
-            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_FUNCTION:
         if (record->event.pressed) {
             layer_move(_FUNCTION);
-            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_RGB:
         if (record->event.pressed) {
             layer_move(_RGB);
-            change_backlight();
         }
         return false; // Skip all further processing of this key
 
     case QD_ENTERTAINMENT:
         if (record->event.pressed) {
             layer_move(_ENTERTAINMENT);
-            change_backlight();
         }
         return false; // Skip all further processing of this key
 
