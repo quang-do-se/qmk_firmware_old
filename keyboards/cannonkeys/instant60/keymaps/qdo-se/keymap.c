@@ -260,7 +260,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t kc;
 
     // Store the current modifier state in the variable for later reference
-    /* uint8_t mod_state = get_mods(); */
+    uint8_t mod_state = get_mods();
 
     switch (keycode) {
 
@@ -268,13 +268,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             if (MODS_SHIFT) {
                 del_mods(MOD_MASK_SHIFT);
-                register_code(KC_GRV);
+                kc = KC_GRV;
             } else {
-                register_code(KC_ESCAPE);
+                kc = KC_ESCAPE;
             }
 
-            /* // restore mod state */
-            /* set_mods(mod_state); */
+            // restore mod state
+            set_mods(mod_state);
+            register_code(kc);
         } else {
             unregister_code(kc);
         }
