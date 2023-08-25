@@ -15,7 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include QMK_KEYBOARD_H
-/* #include "print.h" */
+#include "print.h"
 
 //Define a type for as many tap dance states as you need
 enum {
@@ -180,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [_BASE] = LAYOUT_60_ansi(
-                             QK_GRAVE_ESCAPE,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+                             QD_ESC,            KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
                              KC_TAB,            KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
                              KC_LCTL,           KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            TD(TD_RCTL_ENT),
                              TD(TD_LSFT_CAPS),  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT ,  KC_SLSH,                      KC_RSFT,
@@ -188,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                              ),
 
     [_FUNCTION] = LAYOUT_60_ansi(
-                                 KC_TILDE,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
+                                 KC_GRV, KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
                                  _______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  KC_UP,    _______,  KC_PGUP,  KC_HOME,  _______,  _______,
                                  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_PGDN,  KC_END,             _______,
                                  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_UP,                        _______,
@@ -257,7 +257,28 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #define MODS_GUI  (get_mods() & MOD_BIT(KC_LGUI) || get_mods() & MOD_BIT(KC_RGUI))
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    static uint16_t kc;
+
+    // Store the current modifier state in the variable for later reference
+    /* uint8_t mod_state = get_mods(); */
+
     switch (keycode) {
+
+    case QD_ESC:
+        if (record->event.pressed) {
+            if (MODS_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                register_code(KC_GRV);
+            } else {
+                register_code(KC_ESCAPE);
+            }
+
+            /* // restore mod state */
+            /* set_mods(mod_state); */
+        } else {
+            unregister_code(kc);
+        }
+        return false; // Skip all further processing of this key
 
     case QD_BASE:
         if (record->event.pressed) {

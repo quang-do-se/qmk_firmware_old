@@ -31,7 +31,7 @@ DFU_SUFFIX_ARGS = -p FFFF -v FFFF            # Wildcard to allow APM32 MCU
 
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE    # Enter lower-power sleep mode when on the ChibiOS idle thread
 
-TAP_DANCE_ENABLE=yes
+TAP_DANCE_ENABLE= yes
 
 CONSOLE_ENABLE = no         # Console for debug
 COMMAND_ENABLE = no         # Commands for debug and configuration
